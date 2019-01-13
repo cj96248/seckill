@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chao.seckill.dao.OrderDao">
+
+    <insert id="insert" >
+        insert ignore into orders(stock_id, user_phone, state)
+        values (#{stockId}, #{userPhone}, 0)
+    </insert>
+
+    <select id="queryStockById" resultType="Order">
+      select
+        o.stock_id,
+        o.user_phone,
+        o.state,
+        o.create_time,
+        s.id as "stock.id",
+        s.name as "stock.name",
+        s.amount as "stock.amount",
+        s.start_time as "stock.start_time",
+        s.end_time as "stock.end_time",
+        s.create_time as "stock.create_time"
+      from orders o
+      inner join stock s on s.id = o.stock_id
+      where o.stock_id=#{stockId} and o.user_phone=#{userPhone}
+    </select>
+</mapper>
